@@ -1,15 +1,15 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.ProductDto;
-import com.example.demo.dto.ProductResponseDto;
+import com.example.demo.dto.ProductDTO;
+import com.example.demo.dto.ProductResponseDTO;
 
 public interface ProductService {
 
-    ProductResponseDto getProduct(Long number);
+    ProductResponseDTO getProduct(Long number);
 
-    ProductResponseDto saveProduct(ProductDto productDto);
+    ProductResponseDTO saveProduct(ProductDTO productDto);
 
-    ProductResponseDto changeProductName(Long number, String name) throws Exception;
+    ProductResponseDTO changeProductName(Long number, String name) throws Exception;
 
     void deleteProduct(Long number) throws Exception;
 

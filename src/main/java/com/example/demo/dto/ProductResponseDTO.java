@@ -7,14 +7,14 @@ import lombok.*;
 @ToString
 @Getter
 @Setter
-public class ProductResponseDto {
+public class ProductResponseDTO {
     private Long number;
     private String name;
     private int price;
     private int stock;
 
-    public ProductResponseDto() {}
-    public ProductResponseDto(Long number, String name, int price, int stock) {
+    public ProductResponseDTO() {}
+    public ProductResponseDTO(Long number, String name, int price, int stock) {
         this.number = number;
         this.name = name;
         this.price = price;

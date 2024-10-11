@@ -7,12 +7,12 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class ProductDto {
+public class ProductDTO {
     private String name;
     private int price;
     private int stock;
 
-    public ProductDto(String name, int price, int stock) {
+    public ProductDTO(String name, int price, int stock) {
         this.name = name;
         this.price = price;
         this.stock = stock;

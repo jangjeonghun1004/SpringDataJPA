@@ -6,15 +6,15 @@ import lombok.Setter;
 // 예제 6.28
 @Getter
 @Setter
-public class ChangeProductNameDto {
+public class ChangeProductNameDTO {
     private Long number;
     private String name;
 
-    public ChangeProductNameDto(Long number, String name) {
+    public ChangeProductNameDTO(Long number, String name) {
         this.number = number;
         this.name = name;
     }
 
-    public ChangeProductNameDto() {
+    public ChangeProductNameDTO() {
     }
 }

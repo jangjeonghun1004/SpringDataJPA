@@ -1,19 +1,17 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.ChangeProductNameDto;
-import com.example.demo.dto.ProductDto;
-import com.example.demo.dto.ProductResponseDto;
+import com.example.demo.dto.ChangeProductNameDTO;
+import com.example.demo.dto.ProductDTO;
+import com.example.demo.dto.ProductResponseDTO;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-// 예제 6.27
 @RestController
 @RequestMapping("/product")
 public class ProductController {
-
     private final ProductService productService;
 
     @Autowired
@@ -22,23 +20,23 @@ public class ProductController {
     }
 
     @GetMapping()
-    public ResponseEntity<ProductResponseDto> getProduct(Long number) {
-        ProductResponseDto productResponseDto = productService.getProduct(number);
+    public ResponseEntity<ProductResponseDTO> getProduct(Long number) {
+        ProductResponseDTO productResponseDto = productService.getProduct(number);
 
         return ResponseEntity.status(HttpStatus.OK).body(productResponseDto);
     }
 
     @PostMapping()
-    public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductDto productDto) {
-        ProductResponseDto productResponseDto = productService.saveProduct(productDto);
+    public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody ProductDTO productDto) {
+        ProductResponseDTO productResponseDto = productService.saveProduct(productDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(productResponseDto);
     }
 
     @PutMapping()
-    public ResponseEntity<ProductResponseDto> changeProductName(
-            @RequestBody ChangeProductNameDto changeProductNameDto) throws Exception {
-        ProductResponseDto productResponseDto = productService.changeProductName(
+    public ResponseEntity<ProductResponseDTO> changeProductName(
+            @RequestBody ChangeProductNameDTO changeProductNameDto) throws Exception {
+        ProductResponseDTO productResponseDto = productService.changeProductName(
                 changeProductNameDto.getNumber(),
                 changeProductNameDto.getName());
 

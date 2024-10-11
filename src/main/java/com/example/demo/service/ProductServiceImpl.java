@@ -1,18 +1,15 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.ProductDAO;
-import com.example.demo.dto.ProductDto;
-import com.example.demo.dto.ProductResponseDto;
+import com.example.demo.dto.ProductDTO;
+import com.example.demo.dto.ProductResponseDTO;
 import com.example.demo.entity.Product;
 import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-// 예제 6.22
 @Service
 public class ProductServiceImpl implements ProductService {
-
     private final ProductDAO productDAO;
 
     @Autowired
@@ -20,12 +17,11 @@ public class ProductServiceImpl implements ProductService {
         this.productDAO = productDAO;
     }
 
-    // 예제 6.23
     @Override
-    public ProductResponseDto getProduct(Long number) {
+    public ProductResponseDTO getProduct(Long number) {
         Product product = productDAO.selectProduct(number);
 
-        ProductResponseDto productResponseDto = new ProductResponseDto();
+        ProductResponseDTO productResponseDto = new ProductResponseDTO();
         productResponseDto.setNumber(product.getNumber());
         productResponseDto.setName(product.getName());
         productResponseDto.setPrice(product.getPrice());
@@ -34,9 +30,8 @@ public class ProductServiceImpl implements ProductService {
         return productResponseDto;
     }
 
-    // 예제 6.24
     @Override
-    public ProductResponseDto saveProduct(ProductDto productDto) {
+    public ProductResponseDTO saveProduct(ProductDTO productDto) {
         Product product = new Product();
         product.setName(productDto.getName());
         product.setPrice(productDto.getPrice());
@@ -46,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
 
         Product savedProduct = productDAO.insertProduct(product);
 
-        ProductResponseDto productResponseDto = new ProductResponseDto();
+        ProductResponseDTO productResponseDto = new ProductResponseDTO();
         productResponseDto.setNumber(savedProduct.getNumber());
         productResponseDto.setName(savedProduct.getName());
         productResponseDto.setPrice(savedProduct.getPrice());
@@ -55,12 +50,11 @@ public class ProductServiceImpl implements ProductService {
         return productResponseDto;
     }
 
-    // 예제 6.25
     @Override
-    public ProductResponseDto changeProductName(Long number, String name) throws Exception {
+    public ProductResponseDTO changeProductName(Long number, String name) throws Exception {
         Product changedProduct = productDAO.updateProductName(number, name);
 
-        ProductResponseDto productResponseDto = new ProductResponseDto();
+        ProductResponseDTO productResponseDto = new ProductResponseDTO();
         productResponseDto.setNumber(changedProduct.getNumber());
         productResponseDto.setName(changedProduct.getName());
         productResponseDto.setPrice(changedProduct.getPrice());
@@ -69,7 +63,6 @@ public class ProductServiceImpl implements ProductService {
         return productResponseDto;
     }
 
-    // 예제 6.26
     @Override
     public void deleteProduct(Long number) throws Exception {
         productDAO.deleteProduct(number);
