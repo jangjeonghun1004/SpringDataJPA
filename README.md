@@ -42,3 +42,5 @@
 
 # 요청 흐름
     컨트롤러(ProductController) -> 서비스(ProductService) -> DAO(ProductDAO) -> 리파지토리(ProductRepository)
+                                            |
+                             <-> DTO(ProductDTO)
