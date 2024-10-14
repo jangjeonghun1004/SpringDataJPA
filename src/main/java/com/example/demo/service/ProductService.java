@@ -2,15 +2,25 @@ package com.example.demo.service;
 
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.dto.ProductResponseDTO;
+import com.example.demo.entity.Product;
+
+import java.util.List;
 
 public interface ProductService {
-
-    ProductResponseDTO getProduct(Long number);
-
     ProductResponseDTO saveProduct(ProductDTO productDto);
+    ProductResponseDTO getProduct(Long number);
+    List<ProductResponseDTO> findAllProduct();
+    List<ProductResponseDTO> findAllProductSort();
+    List<ProductResponseDTO> findAllProductPageable(int pageNumber, int pageSize);
+
+
+
 
     ProductResponseDTO changeProductName(Long number, String name) throws Exception;
 
     void deleteProduct(Long number) throws Exception;
+
+
+
 
 }

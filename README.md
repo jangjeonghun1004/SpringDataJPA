@@ -26,6 +26,7 @@
     MySQL Driver
 
 # application.properties 설정
+
     spring.datasource.url=jdbc:mysql://127.0.0.1:3306/spring
     spring.datasource.username=root
     spring.datasource.password=root
@@ -40,7 +41,49 @@
         개발 환경 = create 또는 update
         운영 환경 = validate 또는 none
 
-# 요청 흐름
-    컨트롤러(ProductController) -> 서비스(ProductService) -> DAO(ProductDAO) -> 리파지토리(ProductRepository)
-                                            |
-                             <-> DTO(ProductDTO)
+# 애플리케이션의 구조
+
+![SpringDataJPA Process.png](SpringDataJPA%20Process.png)
+
+    DTO(Data Transfer Object)
+    클라이언트, 컨트롤러, 서비스 간의 데이터 전송을 위한 객체
+
+    DAO(Data Access Object)
+    데이터베이스 접근을 위한 객체
+
+    Entity
+    서비스, 리포지토리, 데이터베이스 간의 데이터 전송을 위한 객체
+
+# JpaRepository 기본 메소드
+
+    productRepository.save(product)
+    productRepository.getReferenceById(number)
+    productRepository.findAll()
+    productRepository.findAll(Sort.by(Sort.Direction.DESC, "number"))
+    productRepository.findAll(PageRequest.of(pageNumber, pageSize))
+
+# Repository
+
+    JpaRepository
+    https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html
+
+    CrudRepository
+    https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html
+
+    ListCrudRepository
+    https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/ListCrudRepository.html
+
+    ListPagingAndSortingRepository
+    https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/ListPagingAndSortingRepository.html
+
+    PagingAndSortingRepository
+    https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/PagingAndSortingRepository.html
+
+    QueryByExampeExecutor
+    https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/query/QueryByExampleExecutor.html
+
+
+
+
+
+

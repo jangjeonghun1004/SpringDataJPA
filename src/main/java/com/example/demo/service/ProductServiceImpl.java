@@ -5,9 +5,15 @@ import com.example.demo.dto.ProductDTO;
 import com.example.demo.dto.ProductResponseDTO;
 import com.example.demo.entity.Product;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductDAO productDAO;
@@ -17,9 +23,29 @@ public class ProductServiceImpl implements ProductService {
         this.productDAO = productDAO;
     }
 
+
+    @Override
+    public ProductResponseDTO saveProduct(ProductDTO productDto) {
+        Product product = new Product();
+        product.setName(productDto.getName());
+        product.setPrice(productDto.getPrice());
+        product.setStock(productDto.getStock());
+        product.setCreatedAt(LocalDateTime.now());
+        product.setUpdatedAt(LocalDateTime.now());
+        Product savedProduct = productDAO.saveProduct(product);
+
+        ProductResponseDTO productResponseDto = new ProductResponseDTO();
+        productResponseDto.setNumber(savedProduct.getNumber());
+        productResponseDto.setName(savedProduct.getName());
+        productResponseDto.setPrice(savedProduct.getPrice());
+        productResponseDto.setStock(savedProduct.getStock());
+
+        return productResponseDto;
+    }
+
     @Override
     public ProductResponseDTO getProduct(Long number) {
-        Product product = productDAO.selectProduct(number);
+        Product product = productDAO.getProduct(number);
 
         ProductResponseDTO productResponseDto = new ProductResponseDTO();
         productResponseDto.setNumber(product.getNumber());
@@ -31,24 +57,72 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponseDTO saveProduct(ProductDTO productDto) {
-        Product product = new Product();
-        product.setName(productDto.getName());
-        product.setPrice(productDto.getPrice());
-        product.setStock(productDto.getStock());
-        product.setCreatedAt(LocalDateTime.now());
-        product.setUpdatedAt(LocalDateTime.now());
+    public List<ProductResponseDTO> findAllProduct() {
+        List<ProductResponseDTO> productResponseDTOs = new ArrayList<ProductResponseDTO>();
+        List<Product> products = this.productDAO.findAllProduct();
 
-        Product savedProduct = productDAO.insertProduct(product);
+        products.forEach((product) -> {
+            productResponseDTOs.add(new ProductResponseDTO(
+                    product.getNumber(),
+                    product.getName(),
+                    product.getPrice(),
+                    product.getStock())
+            );
+        });
 
-        ProductResponseDTO productResponseDto = new ProductResponseDTO();
-        productResponseDto.setNumber(savedProduct.getNumber());
-        productResponseDto.setName(savedProduct.getName());
-        productResponseDto.setPrice(savedProduct.getPrice());
-        productResponseDto.setStock(savedProduct.getStock());
-
-        return productResponseDto;
+        return productResponseDTOs;
     }
+
+    @Override
+    public List<ProductResponseDTO> findAllProductSort() {
+        List<Product> products = this.productDAO.findAllProductSort();
+
+        List<ProductResponseDTO> productResponseDTOs = new ArrayList<ProductResponseDTO>();
+        products.forEach((product) -> {
+            productResponseDTOs.add(new ProductResponseDTO(
+                    product.getNumber(),
+                    product.getName(),
+                    product.getPrice(),
+                    product.getStock()
+            ));
+        });
+
+        return productResponseDTOs;
+    }
+
+    @Override
+    public List<ProductResponseDTO> findAllProductPageable(int pageNumber, int pageSize) {
+        Page<Product> products = this.productDAO.findAllProductPageable(pageNumber, pageSize);
+
+        List<ProductResponseDTO> productResponseDTOs = new ArrayList<ProductResponseDTO>();
+        products.forEach((product) -> {
+            productResponseDTOs.add(new ProductResponseDTO(
+                    product.getNumber(),
+                    product.getName(),
+                    product.getPrice(),
+                    product.getStock()
+            ));
+        });
+
+        log.info("Total Pages = {}", products.getTotalPages());
+        log.info("Total elements = {}", products.getTotalElements());
+        log.info("Current page contents = {}", products.getContent());
+
+        return productResponseDTOs;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public ProductResponseDTO changeProductName(Long number, String name) throws Exception {

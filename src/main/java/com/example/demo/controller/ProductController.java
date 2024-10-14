@@ -4,11 +4,15 @@ import com.example.demo.dto.ChangeProductNameDTO;
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.dto.ProductResponseDTO;
 import com.example.demo.service.ProductService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@Slf4j
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -19,19 +23,43 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping()
-    public ResponseEntity<ProductResponseDTO> getProduct(Long number) {
-        ProductResponseDTO productResponseDto = productService.getProduct(number);
-
-        return ResponseEntity.status(HttpStatus.OK).body(productResponseDto);
-    }
-
     @PostMapping()
-    public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody ProductDTO productDto) {
+    public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody(required = true) ProductDTO productDto) {
         ProductResponseDTO productResponseDto = productService.saveProduct(productDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(productResponseDto);
     }
+
+    @GetMapping()
+    public ResponseEntity<ProductResponseDTO> getProduct(@RequestParam(required = true) Long number) {
+        ProductResponseDTO productResponseDto = this.productService.getProduct(number);
+        return ResponseEntity.status(HttpStatus.OK).body(productResponseDto);
+    }
+
+    @GetMapping("/findAllProduct")
+    public ResponseEntity<List<ProductResponseDTO>> findAllProduct() {
+        return ResponseEntity.status(HttpStatus.OK).body(this.productService.findAllProduct());
+    }
+
+    @GetMapping("/findAllProductSort")
+    public ResponseEntity<List<ProductResponseDTO>> findAllProductSort() {
+        return ResponseEntity.status(HttpStatus.OK).body(this.productService.findAllProductSort());
+    }
+
+    @GetMapping("/findAllProductPageable")
+    public ResponseEntity<List<ProductResponseDTO>> findAllProductPageable(
+            @RequestParam(required = true) int pageNumber,
+            @RequestParam(required = true) int pageSize
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.productService.findAllProductPageable(pageNumber, pageSize));
+    }
+
+
+
+
+
+
+
 
     @PutMapping()
     public ResponseEntity<ProductResponseDTO> changeProductName(

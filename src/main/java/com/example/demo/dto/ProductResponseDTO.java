@@ -2,9 +2,6 @@ package com.example.demo.dto;
 
 import lombok.*;
 
-// 예제 6.20
-@Data
-@ToString
 @Getter
 @Setter
 public class ProductResponseDTO {
@@ -20,7 +17,4 @@ public class ProductResponseDTO {
         this.price = price;
         this.stock = stock;
     }
-
-
-
 }
