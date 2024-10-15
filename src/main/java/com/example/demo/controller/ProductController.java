@@ -1,18 +1,16 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.ChangeProductNameDTO;
+import com.example.demo.dto.ProductChangeNameDTO;
+import com.example.demo.dto.ProductChangeDTO;
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.dto.ProductResponseDTO;
 import com.example.demo.service.ProductService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
-@Slf4j
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -23,17 +21,15 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping()
-    public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody(required = true) ProductDTO productDto) {
-        ProductResponseDTO productResponseDto = productService.saveProduct(productDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(productResponseDto);
+    @PostMapping("/createProduct")
+    public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody(required = true) ProductDTO productDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.productService.saveProduct(productDto));
     }
 
-    @GetMapping()
+    @GetMapping("/getProduct")
     public ResponseEntity<ProductResponseDTO> getProduct(@RequestParam(required = true) Long number) {
-        ProductResponseDTO productResponseDto = this.productService.getProduct(number);
-        return ResponseEntity.status(HttpStatus.OK).body(productResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(this.productService.getProduct(number));
     }
 
     @GetMapping("/findAllProduct")
@@ -48,34 +44,29 @@ public class ProductController {
 
     @GetMapping("/findAllProductPageable")
     public ResponseEntity<List<ProductResponseDTO>> findAllProductPageable(
-            @RequestParam(required = true) int pageNumber,
-            @RequestParam(required = true) int pageSize
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "2") int pageSize
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(this.productService.findAllProductPageable(pageNumber, pageSize));
     }
 
-
-
-
-
-
-
-
-    @PutMapping()
+    @PatchMapping("/changeProductName")
     public ResponseEntity<ProductResponseDTO> changeProductName(
-            @RequestBody ChangeProductNameDTO changeProductNameDto) throws Exception {
-        ProductResponseDTO productResponseDto = productService.changeProductName(
-                changeProductNameDto.getNumber(),
-                changeProductNameDto.getName());
-
-        return ResponseEntity.status(HttpStatus.OK).body(productResponseDto);
-
+            @RequestBody(required = true) ProductChangeNameDTO productChangeNameDTO
+    ) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(this.productService.changeProductName(productChangeNameDTO));
     }
 
-    @DeleteMapping()
-    public ResponseEntity<String> deleteProduct(Long number) throws Exception {
-        productService.deleteProduct(number);
+    @PutMapping("/changeProduct")
+    public ResponseEntity<ProductResponseDTO> changeProduct(
+            @RequestBody(required = true) ProductChangeDTO productChangeDTO
+    ) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(this.productService.changeProduct(productChangeDTO));
+    }
 
+    @DeleteMapping("/deleteProduct")
+    public ResponseEntity<String> deleteProduct(Long number) throws Exception {
+        this.productService.deleteProduct(number);
         return ResponseEntity.status(HttpStatus.OK).body("정상적으로 삭제되었습니다.");
     }
 

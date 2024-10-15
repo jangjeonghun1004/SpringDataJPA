@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.ProductChangeDTO;
+import com.example.demo.dto.ProductChangeNameDTO;
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.dto.ProductResponseDTO;
-import com.example.demo.entity.Product;
-
 import java.util.List;
 
 public interface ProductService {
@@ -12,15 +12,7 @@ public interface ProductService {
     List<ProductResponseDTO> findAllProduct();
     List<ProductResponseDTO> findAllProductSort();
     List<ProductResponseDTO> findAllProductPageable(int pageNumber, int pageSize);
-
-
-
-
-    ProductResponseDTO changeProductName(Long number, String name) throws Exception;
-
+    ProductResponseDTO changeProductName(ProductChangeNameDTO productChangeNameDTO) throws Exception;
+    ProductResponseDTO changeProduct(ProductChangeDTO productChangeDTO) throws Exception;
     void deleteProduct(Long number) throws Exception;
-
-
-
-
 }

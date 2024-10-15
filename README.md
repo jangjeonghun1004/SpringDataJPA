@@ -61,6 +61,7 @@
     productRepository.findAll()
     productRepository.findAll(Sort.by(Sort.Direction.DESC, "number"))
     productRepository.findAll(PageRequest.of(pageNumber, pageSize))
+    productRepository.delete(product)
 
 # Repository
 

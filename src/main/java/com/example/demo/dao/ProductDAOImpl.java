@@ -8,7 +8,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
@@ -47,64 +46,53 @@ public class ProductDAOImpl implements ProductDAO {
         return this.productRepository.findAll(PageRequest.of(pageNumber, pageSize));
     }
 
-
-
-
-
-
-
-
-
-
     @Override
-    public Product insertProduct(Product product) {
-        Product savedProduct = productRepository.save(product);
-        //this.productRepository.saveAndFlush(product);
+    public Product changeProductName(Long number, String name) throws Exception {
+        Optional<Product> selectedProduct = this.productRepository.findById(number);
 
-        return savedProduct;
-    }
-
-    @Override
-    public Product selectProduct(Long number) {
-        Product selectedProduct = productRepository.getReferenceById(number);
-
-        return selectedProduct;
-    }
-
-    @Override
-    public Product updateProductName(Long number, String name) throws Exception {
-        Optional<Product> selectedProduct = productRepository.findById(number);
-
-        Product updatedProduct;
+        Product changedProduct;
         if (selectedProduct.isPresent()) {
             Product product = selectedProduct.get();
 
             product.setName(name);
             product.setUpdatedAt(LocalDateTime.now());
 
-            updatedProduct = productRepository.save(product);
+            changedProduct = this.productRepository.save(product);
         } else {
             throw new Exception();
         }
 
-        return updatedProduct;
+        return changedProduct;
+    }
+
+    @Override
+    public Product changeProduct(Long number, String name, int price, int stock) throws Exception {
+        Optional<Product> selectedProduct = this.productRepository.findById(number);
+
+        Product changedProduct;
+        if(selectedProduct.isPresent()) {
+            Product product = selectedProduct.get();
+            product.setName(name);
+            product.setPrice(price);
+            product.setStock(stock);
+
+            changedProduct = this.productRepository.save(product);
+        } else {
+            throw new Exception();
+        }
+
+        return changedProduct;
     }
 
     @Override
     public void deleteProduct(Long number) throws Exception {
-        Optional<Product> selectedProduct = productRepository.findById(number);
+        Optional<Product> selectedProduct = this.productRepository.findById(number);
 
         if (selectedProduct.isPresent()) {
-            Product product = selectedProduct.get();
-
-            productRepository.delete(product);
+            productRepository.delete(selectedProduct.get());
         } else {
             throw new Exception();
         }
     }
-
-
-
-
 
 }

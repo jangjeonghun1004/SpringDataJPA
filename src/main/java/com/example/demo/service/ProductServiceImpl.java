@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.ProductDAO;
+import com.example.demo.dto.ProductChangeDTO;
+import com.example.demo.dto.ProductChangeNameDTO;
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.dto.ProductResponseDTO;
 import com.example.demo.entity.Product;
@@ -111,22 +113,9 @@ public class ProductServiceImpl implements ProductService {
         return productResponseDTOs;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
-    public ProductResponseDTO changeProductName(Long number, String name) throws Exception {
-        Product changedProduct = productDAO.updateProductName(number, name);
+    public ProductResponseDTO changeProductName(ProductChangeNameDTO productChangeNameDTO) throws Exception {
+        Product changedProduct = productDAO.changeProductName(productChangeNameDTO.getNumber(), productChangeNameDTO.getName());
 
         ProductResponseDTO productResponseDto = new ProductResponseDTO();
         productResponseDto.setNumber(changedProduct.getNumber());
@@ -138,7 +127,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductResponseDTO changeProduct(ProductChangeDTO productChangeDTO) throws Exception {
+        Product product = this.productDAO.changeProduct(
+                productChangeDTO.getNumber(),
+                productChangeDTO.getName(),
+                productChangeDTO.getPrice(),
+                productChangeDTO.getStock()
+        );
+
+        return ProductResponseDTO.builder()
+                .number(product.getNumber())
+                .name(product.getName())
+                .price(product.getPrice())
+                .stock(product.getStock())
+                .build();
+    }
+
+    @Override
     public void deleteProduct(Long number) throws Exception {
-        productDAO.deleteProduct(number);
+        this.productDAO.deleteProduct(number);
     }
 }
