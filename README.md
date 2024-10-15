@@ -54,7 +54,7 @@
     Entity
     데이터베이스의 Data Relation을 위한 객체
 
-# JpaRepository 기본 메소드
+# SimpleJpaRepository 기본 메소드
 
     productRepository.save(product)
     productRepository.getReferenceById(number)
@@ -64,6 +64,9 @@
     productRepository.delete(product)
 
 # Repository
+
+    SimpleJpaRepository
+    https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/support/SimpleJpaRepository.html
 
     JpaRepository
     https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html

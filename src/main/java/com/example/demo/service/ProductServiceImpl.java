@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
         product.setStock(productDto.getStock());
         product.setCreatedAt(LocalDateTime.now());
         product.setUpdatedAt(LocalDateTime.now());
-        Product savedProduct = productDAO.saveProduct(product);
+        Product savedProduct = this.productDAO.saveProduct(product);
 
         ProductResponseDTO productResponseDto = new ProductResponseDTO();
         productResponseDto.setNumber(savedProduct.getNumber());
@@ -47,15 +47,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponseDTO getProduct(Long number) {
-        Product product = productDAO.getProduct(number);
+        Product product = this.productDAO.getProduct(number);
 
-        ProductResponseDTO productResponseDto = new ProductResponseDTO();
-        productResponseDto.setNumber(product.getNumber());
-        productResponseDto.setName(product.getName());
-        productResponseDto.setPrice(product.getPrice());
-        productResponseDto.setStock(product.getStock());
-
-        return productResponseDto;
+        return ProductResponseDTO.builder()
+                .number(product.getNumber())
+                .name(product.getName())
+                .price(product.getPrice())
+                .stock(product.getStock())
+                .build();
     }
 
     @Override
