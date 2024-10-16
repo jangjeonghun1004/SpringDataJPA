@@ -10,6 +10,7 @@ public interface ProductDAO {
     List<Product> findAllProduct();
     List<Product> findAllProductSort();
     Page<Product> findAllProductPageable(int pageNumber, int pageSize);
+    List<Product> findByProductName(String productName);
     Product changeProductName(Long number, String name) throws Exception;
     Product changeProduct(Long number, String name, int price, int stock) throws Exception;
     void deleteProduct(Long number) throws Exception;

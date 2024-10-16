@@ -12,6 +12,7 @@ public interface ProductService {
     List<ProductResponseDTO> findAllProduct();
     List<ProductResponseDTO> findAllProductSort();
     List<ProductResponseDTO> findAllProductPageable(int pageNumber, int pageSize);
+    List<ProductResponseDTO> findByProductName(String productName);
     ProductResponseDTO changeProductName(ProductChangeNameDTO productChangeNameDTO) throws Exception;
     ProductResponseDTO changeProduct(ProductChangeDTO productChangeDTO) throws Exception;
     void deleteProduct(Long number) throws Exception;

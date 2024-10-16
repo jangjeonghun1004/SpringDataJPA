@@ -47,6 +47,11 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
+    public List<Product> findByProductName(String productName) {
+        return this.productRepository.findByNameContaining(productName);
+    }
+
+    @Override
     public Product changeProductName(Long number, String name) throws Exception {
         Optional<Product> selectedProduct = this.productRepository.findById(number);
 
@@ -94,5 +99,7 @@ public class ProductDAOImpl implements ProductDAO {
             throw new Exception();
         }
     }
+
+
 
 }

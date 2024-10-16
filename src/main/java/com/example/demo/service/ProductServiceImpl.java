@@ -113,6 +113,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductResponseDTO> findByProductName(String productName) {
+        List<Product> products = this.productDAO.findByProductName(productName);
+
+        List<ProductResponseDTO> productResponseDTOs = new ArrayList<ProductResponseDTO>();
+        products.forEach((product) -> {
+            productResponseDTOs.add(new ProductResponseDTO(
+                    product.getNumber(),
+                    product.getName(),
+                    product.getPrice(),
+                    product.getStock()
+            ));
+        });
+
+        return productResponseDTOs;
+    }
+
+    @Override
     public ProductResponseDTO changeProductName(ProductChangeNameDTO productChangeNameDTO) throws Exception {
         Product changedProduct = productDAO.changeProductName(productChangeNameDTO.getNumber(), productChangeNameDTO.getName());
 

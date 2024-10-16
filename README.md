@@ -50,9 +50,31 @@
 
     DAO(Data Access Object)
     데이터베이스 접근을 위한 객체
+    Spring Data JPA에서 리포지토리의 역할은 DAO이다.
 
     Entity
-    데이터베이스의 Data Relation을 위한 객체
+    데이터베이스의 테이블과 구조를 생성하는 객체
+
+# Entity
+
+    @Entity
+    클래스가 엔티티임을 명시하기 위한 어노테이션
+
+    @Table
+    클래스의 이름과 테이블의 이름을 다르게 지정하기 위한 어노테이션
+
+    @Id
+    테이블의 기본값 역활을 설정하기 위한 어노테이션 * 필수 어노테이션 *
+
+    @GeneratedValue
+    필드의 값을 어떤 방식으로 자동 생성할지 설정하기 위한 어노테이션
+
+    @Column
+    클래스의 필드를 테이블 컬럼으로 설정하기 위한 어노테이션
+
+    @Transient
+    클래스에는 선언되어 있는 필드이지만 테이블에서는 컬럼으로 설정하지 않을때 사용하는 어노테이션
+
 
 # SimpleJpaRepository 기본 메소드
 
@@ -62,6 +84,16 @@
     productRepository.findAll(Sort.by(Sort.Direction.DESC, "number"))
     productRepository.findAll(PageRequest.of(pageNumber, pageSize))
     productRepository.delete(product)
+
+# 사용자 정의 Repository 메소드
+
+    findByNameContaining(String productName)
+    findBy = where
+    Containing = like
+    Name = Entity에 정의한 프로퍼티
+
+    findByNameContaining을 해석하면 where name like = '%productName%'이 된다.
+    이러한 메소드 생성 규칙으로 다양한 쿼리를 생성할 수 있다. 자세한 내용은 스스로 검색해 보기 바란다.
 
 # Repository
 

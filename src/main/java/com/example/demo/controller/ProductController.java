@@ -4,6 +4,7 @@ import com.example.demo.dto.ProductChangeNameDTO;
 import com.example.demo.dto.ProductChangeDTO;
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.dto.ProductResponseDTO;
+import com.example.demo.entity.Product;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,6 +49,13 @@ public class ProductController {
             @RequestParam(defaultValue = "2") int pageSize
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(this.productService.findAllProductPageable(pageNumber, pageSize));
+    }
+
+   @GetMapping("findByProductName")
+    public ResponseEntity<List<ProductResponseDTO>> findByProductName(
+            @RequestParam(required = true) String productName
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.productService.findByProductName(productName));
     }
 
     @PatchMapping("/changeProductName")
